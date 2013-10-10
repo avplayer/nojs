@@ -1,8 +1,8 @@
 /// <reference path="System.ts" />
 /**
-* ģ��System.Generic
+* System.Generic
 *
-* ʵ�ַ���:IList, List
+* IList, List
 */
 var System;
 (function (System) {
@@ -22,10 +22,10 @@ var System;
             });
 
             Object.defineProperty(List.prototype, "Item", {
-                get: // ��������ǲ���ȫ��
-                // ��ΪĿǰ��û�а취�������this._list[1023] = 12�����Ĳ���
-                // ������,������������Ѿ�Խ����
-                // ����ȷ��������쳣
+                get: // 这个方法是不安全的
+                // 因为目前还没有办法检查诸如this._list[1023] = 12这样的操作
+                // 很明显,上面这个操作已经越界了
+                // 但是确不会出现异常
                 function () {
                     return this._list;
                 },
