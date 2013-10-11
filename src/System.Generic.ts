@@ -7,12 +7,12 @@
 module System {
     export module Generic {
         export interface IEnumerator<T> {
-            Current: T;
+            Current: any;
             MoveNext: () => boolean;
         }
         
         export interface IEnumerable<T> {
-            GetEnumerator: IEnumerator<T>;
+            GetEnumerator: () => IEnumerator<T>;
         }
             
         export interface IList<T> {
@@ -24,14 +24,15 @@ module System {
             Contains(element: T): T;
         }
         
-        export class List<T> implements IList<T> {
+        export class List<T> implements IList<T>, IEnumerable<T> {
             private _list: T[];
             private _count: number;
+            private _index: number;
 
             constructor() {
                 this._count = 0;
-
                 this._list = [];
+                this._index = -1;
             }
 
             get Count(): number {
@@ -44,6 +45,27 @@ module System {
             // 但是确不会出现异常
             get Item(): T[] {
                 return this._list;
+            }
+
+            // 实现迭代器操作.
+            GetEnumerator(): IEnumerator<T> {
+                this._index = -1;
+                var _this = this;
+
+                return {
+                    get Current() {
+                        if (_this._index === -1) return undefined;
+
+                        return _this._list[_this._index];
+                    },
+                    MoveNext: function () {
+                        ++_this._index;
+
+                        if (_this._index < _this._count) return true;
+
+                        return false;
+                    }
+                };
             }
 
             Add(element: T) {

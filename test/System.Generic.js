@@ -10,8 +10,8 @@ var System;
         var List = (function () {
             function List() {
                 this._count = 0;
-
                 this._list = [];
+                this._index = 0;
             }
             Object.defineProperty(List.prototype, "Count", {
                 get: function () {
@@ -32,6 +32,22 @@ var System;
                 enumerable: true,
                 configurable: true
             });
+
+            // 实现迭代器操作.
+            List.prototype.GetEnumerator = function () {
+                var _this = this;
+                return {
+                    Current: this._list[this._index],
+                    MoveNext: function () {
+                        if (_this._index < _this._list.length) {
+                            _this._index++;
+                            return true;
+                        }
+
+                        return false;
+                    }
+                };
+            };
 
             List.prototype.Add = function (element) {
                 try  {
