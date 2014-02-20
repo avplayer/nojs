@@ -149,3 +149,18 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+
+# 以下注释用于禁止提交js及相关解决方案文件
+*.bak
+*.js
+*.map
+*.sln
+*.cs
+*.csproj
+*.user
+*.config
+nojs/bin/*
+nojs/obj/*
+nojs/Properties/*
+nojs/nojs/doc/*
+nojs/nojs/lib/*
